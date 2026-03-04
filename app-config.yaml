@@ -1,6 +1,9 @@
 app:
   title: Scaffolded Backstage App
   baseUrl: http://localhost:3000
+  listen:
+    port: 3000
+    host: 0.0.0.0
 
 organization:
   name: My Company
@@ -15,8 +18,7 @@ backend:
   baseUrl: http://localhost:7007
   listen:
     port: 7007
-    # Uncomment the following host directive to bind to specific interfaces
-    # host: 127.0.0.1
+    host: 0.0.0.0
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
@@ -38,10 +40,6 @@ integrations:
       # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
       # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/locations#configuration
       token: ${GITHUB_TOKEN}
-    ### Example for how to add your GitHub Enterprise instance using the API:
-    # - host: ghe.example.net
-    #   apiBaseUrl: https://ghe.example.net/api/v3
-    #   token: ${GHE_TOKEN}
 
 proxy:
   ### Example for how to add a proxy endpoint for the frontend.
@@ -72,6 +70,24 @@ scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
 catalog:
+  providers:
+    github:
+      default:
+        organization: solthoth
+        catalogPath: '/catalog-info.yaml'
+        filters:
+          repositories: '.*'
+        schedule:
+          frequency: { minutes: 60 }
+          timeout: { minutes: 1 }
+    githubOrg:
+      id: default
+      githubUrl: https://github.com
+      orgs: [solthoth]
+      schedule:
+        initialDelay: { minutes: 1 }
+        frequency: { minutes: 60 }
+        timeout: { minutes: 15 }
   import:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
