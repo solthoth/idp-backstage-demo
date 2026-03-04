@@ -104,6 +104,12 @@ catalog:
       rules:
         - allow: [Template]
 
+    # Go Hello World API template
+    - type: url
+      target: https://github.com/solthoth/simple-go-api-template/blob/main/template.yaml
+      rules:
+        - allow: [Template]
+
     # Local example organizational data
     - type: file
       target: ../../examples/org.yaml
